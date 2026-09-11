@@ -1,11 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
     <footer className="border-t tag-border mt-20 bg-[#020202]">
       <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
         <div>
-          <h2 className="text-2xl font-bold tracking-tighter uppercase mb-2">NOVUM</h2>
+          <Image src="/logo.png" alt="NovumStore Logo" width={100} height={34} className="object-contain mb-4" />
           <p className="text-gray-500 text-sm max-w-xs">
             Streetwear d&apos;alta gamma. Pezzi unici, design artigianale e stile dark underground.
           </p>

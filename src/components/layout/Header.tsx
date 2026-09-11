@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
@@ -29,9 +30,8 @@ export default function Header() {
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        <Link href="/" className="text-2xl font-bold tracking-tighter uppercase">
-          NOVUM
-          <span className="tag-label ml-2 text-accent">Store</span>
+        <Link href="/" className="flex items-center">
+          <Image src="/logo.png" alt="NovumStore Logo" width={120} height={40} className="object-contain" priority />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
