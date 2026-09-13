@@ -11,13 +11,15 @@ interface ProductProps {
   tagId: string;
   material: string;
   fit: string;
+  stock_quantity: number;
 }
 
-export default function ProductCard({ id, name, price, image, tagId, material, fit }: ProductProps) {
+export default function ProductCard({ id, name, price, image, tagId, material, fit, stock_quantity }: ProductProps) {
   const { addToCart } = useCart();
+  const isSoldOut = stock_quantity <= 0;
 
   return (
-    <div className="group flex flex-col tag-border bg-[#0a0a0a] transition-colors hover:border-gray-500">
+    <div className={`group flex flex-col tag-border bg-[#0a0a0a] transition-colors ${isSoldOut ? '' : 'hover:border-gray-500'}`}>
       <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#111] p-4">
         <div className="absolute top-2 left-2 w-2 h-2 border-t border-l border-gray-600"></div>
         <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-gray-600"></div>
@@ -25,11 +27,19 @@ export default function ProductCard({ id, name, price, image, tagId, material, f
         <div className="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-gray-600"></div>
         
         <Image
-          src={image}
+          src={image || "/placeholder.png"}
           alt={name}
           fill
-          className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 filter grayscale group-hover:grayscale-0"
+          className={`object-cover ${isSoldOut ? 'opacity-40 grayscale' : 'opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 filter grayscale group-hover:grayscale-0'}`}
         />
+        
+        {isSoldOut && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="bg-red-600 text-white font-bold uppercase tracking-widest px-4 py-2 border tag-border border-red-800 -rotate-12">
+              Sold Out
+            </span>
+          </div>
+        )}
         
         <div className="absolute top-4 right-4 bg-white text-black px-2 py-1 tag-label font-bold">
           {tagId}
@@ -37,26 +47,31 @@ export default function ProductCard({ id, name, price, image, tagId, material, f
       </div>
 
       <div className="p-4 flex flex-col flex-grow border-t tag-border">
-        <h3 className="text-lg font-bold uppercase tracking-tight mb-2">{name}</h3>
+        <h3 className="text-lg font-bold uppercase tracking-tight mb-2 truncate">{name}</h3>
         
         <div className="flex-grow grid grid-cols-2 gap-2 mb-6">
           <div className="border border-[#333] p-2 flex flex-col justify-center">
             <span className="tag-label text-gray-500">Materiale</span>
-            <span className="tag-label text-gray-300 truncate">{material}</span>
+            <span className="tag-label text-gray-300 truncate">{material || "-"}</span>
           </div>
           <div className="border border-[#333] p-2 flex flex-col justify-center">
             <span className="tag-label text-gray-500">Fit</span>
-            <span className="tag-label text-gray-300">{fit}</span>
+            <span className="tag-label text-gray-300 truncate">{fit || "-"}</span>
           </div>
         </div>
 
         <div className="flex items-center justify-between mt-auto">
           <span className="text-xl font-bold">&euro;{price.toFixed(2)}</span>
           <button
+            disabled={isSoldOut}
             onClick={() => addToCart({ id, name, price, image, tagId, quantity: 1 })}
-            className="px-4 py-2 border tag-border hover:bg-white hover:text-black transition-colors uppercase text-xs tracking-widest font-bold"
+            className={`px-4 py-2 border tag-border uppercase text-xs tracking-widest font-bold transition-colors ${
+              isSoldOut 
+                ? 'bg-[#111] text-gray-600 border-gray-800 cursor-not-allowed' 
+                : 'hover:bg-white hover:text-black'
+            }`}
           >
-            Aggiungi
+            {isSoldOut ? "Esaurito" : "Aggiungi"}
           </button>
         </div>
       </div>

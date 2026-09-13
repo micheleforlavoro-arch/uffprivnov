@@ -1,45 +1,23 @@
 import ProductCard from "@/components/product/ProductCard";
+import { supabase } from "@/lib/supabase";
 
-const products = [
-  {
-    id: "prod_01",
-    name: "Obsidian Hoodie",
-    price: 180,
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800&auto=format&fit=crop",
-    tagId: "PZ/01",
-    material: "100% Cotone Heavyweight",
-    fit: "Oversized",
-  },
-  {
-    id: "prod_02",
-    name: "Carbon Cargo Pants",
-    price: 220,
-    image: "https://images.unsplash.com/photo-1517423568366-8b83523034fd?q=80&w=800&auto=format&fit=crop",
-    tagId: "PZ/02",
-    material: "Nylon Ripstop",
-    fit: "Relaxed",
-  },
-  {
-    id: "prod_03",
-    name: "Void T-Shirt",
-    price: 95,
-    image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=800&auto=format&fit=crop",
-    tagId: "PZ/03",
-    material: "Cotone Organico 250gsm",
-    fit: "Boxy",
-  },
-  {
-    id: "prod_04",
-    name: "Asphalt Tech Jacket",
-    price: 340,
-    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800&auto=format&fit=crop",
-    tagId: "PZ/04",
-    material: "Gore-Tex Pro",
-    fit: "Regolare",
+// Forza il rendering dinamico per avere sempre i prodotti aggiornati
+export const dynamic = 'force-dynamic';
+
+export default async function Home() {
+  // Fetch products from Supabase
+  const { data: products, error } = await supabase
+    .from('products')
+    .select('*')
+    .eq('is_visible', true)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching products:', error);
   }
-];
 
-export default function Home() {
+  const displayProducts = products || [];
+
   return (
     <div className="flex flex-col gap-24">
       <section className="relative h-[80vh] w-full flex items-center justify-center overflow-hidden border-b tag-border">
@@ -78,15 +56,31 @@ export default function Home() {
             <p className="text-gray-500 mt-2">Disponibilita&apos; limitata. Nessun restock.</p>
           </div>
           <div className="mt-4 md:mt-0">
-            <span className="tag-label px-2 py-1 border tag-border text-gray-400">4 Pezzi Totali</span>
+            <span className="tag-label px-2 py-1 border tag-border text-gray-400">{displayProducts.length} Pezzi Totali</span>
           </div>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
-            <ProductCard key={product.id} {...product} />
-          ))}
-        </div>
+        {displayProducts.length === 0 ? (
+          <div className="text-center py-12 border tag-border">
+            <p className="text-gray-500 uppercase tracking-widest">Nessun prodotto disponibile in vetrina.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {displayProducts.map((product) => (
+              <ProductCard 
+                key={product.id} 
+                id={product.id}
+                name={product.title}
+                price={product.price}
+                image={product.image_url}
+                tagId={product.tag_id}
+                material={product.material}
+                fit={product.fit}
+                stock_quantity={product.stock_quantity}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

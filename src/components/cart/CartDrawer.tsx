@@ -74,12 +74,17 @@ export default function CartDrawer() {
             </div>
             <button 
               className="w-full py-4 bg-white text-black font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors flex justify-center items-center gap-2"
-              onClick={() => alert("Reindirizzamento al gateway di pagamento (es. Stripe)...")}
+              onClick={async () => {
+                // TODO: Integrazione Stripe
+                // Qui faremo una fetch a /api/checkout passando gli ID dei prodotti
+                // e otterremo l'URL della sessione Stripe per fare il redirect.
+                alert(`Integrazione Stripe in arrivo! Totale da pagare: €${cartTotal.toFixed(2)}`);
+              }}
             >
-              Procedi al Checkout
+              Procedi al Pagamento Sicuro
             </button>
             <p className="tag-label text-gray-500 text-center mt-4">
-              I pagamenti sono gestiti in modo sicuro. Nessun dato salvato.
+              Pagamenti processati in sicurezza da Stripe. Nessun dato salvato.
             </p>
           </div>
         )}
