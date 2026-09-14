@@ -1,42 +1,69 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await supabase.from("newsletter").insert([{ email }]);
+      alert("Iscrizione completata!");
+      setEmail("");
+    } catch (err) {
+      alert("Errore durante l'iscrizione");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <footer className="border-t tag-border mt-20 bg-[#020202]">
-      <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-        <div>
-          <Image src="/logo.png" alt="NovumStore Logo" width={100} height={34} className="object-contain mb-4" />
-          <p className="text-gray-500 text-sm max-w-xs">
-            Streetwear d&apos;alta gamma. Pezzi unici, design artigianale e stile dark underground.
-          </p>
-        </div>
-        
-        <div className="flex flex-col gap-2">
-          <h3 className="tag-label text-gray-400 mb-2">Social</h3>
-          <div className="flex items-center gap-4">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors uppercase text-sm font-bold">
-              IG
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors uppercase text-sm font-bold">
-              X
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors uppercase text-sm font-bold">
-              TK
-            </a>
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-8">
+          <div className="col-span-1 md:col-span-2">
+            <Image src="/logo.png" alt="NovumStore Logo" width={100} height={34} className="object-contain mb-6" />
+            <p className="text-gray-400 text-sm max-w-sm mb-8">Pezzi unici e archivi accuratamente selezionati per un&apos;estetica utilitaristica e oscura.</p>
+            
+            <div className="border tag-border p-4 bg-[#050505]">
+              <h3 className="tag-label text-gray-400 mb-3">Drop Alert / Join The Archive</h3>
+              <form className="flex gap-2" onSubmit={handleSubscribe}>
+                <input 
+                  type="email" 
+                  required 
+                  placeholder="La tua email..." 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-grow bg-transparent border tag-border p-2 focus:border-white outline-none text-sm" 
+                />
+                <button type="submit" disabled={loading} className="bg-white text-black font-bold uppercase tracking-widest px-4 text-xs hover:bg-gray-200 transition-colors disabled:opacity-50">Iscriviti</button>
+              </form>
+            </div>
+          </div>
+          
+          <div className="flex flex-col gap-2">
+            <h3 className="tag-label text-gray-400 mb-4">Info</h3>
+            <Link href="/chi-siamo" className="text-sm text-gray-400 hover:text-white transition-colors">Chi Siamo</Link>
+            <Link href="/faq" className="text-sm text-gray-400 hover:text-white transition-colors">FAQ & Guida Taglie</Link>
+            <Link href="/contatti" className="text-sm text-gray-400 hover:text-white transition-colors">Contatti & Supporto</Link>
+          </div>
+          
+          <div className="flex flex-col gap-2">
+            <h3 className="tag-label text-gray-400 mb-4">Legali</h3>
+            <Link href="/termini-condizioni" className="text-sm text-gray-400 hover:text-white transition-colors">Termini e Condizioni</Link>
+            <Link href="/privacy" className="text-sm text-gray-400 hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/cookie-policy" className="text-sm text-gray-400 hover:text-white transition-colors">Cookie Policy</Link>
           </div>
         </div>
-        
-        <div className="flex flex-col gap-2">
-          <h3 className="tag-label text-gray-400 mb-2">Info</h3>
-          <Link href="/chi-siamo" className="text-sm text-gray-400 hover:text-white">Chi Siamo</Link>
-          <Link href="/contatti" className="text-sm text-gray-400 hover:text-white">Contatti & Supporto</Link>
-          <Link href="/privacy" className="text-sm text-gray-400 hover:text-white">Privacy Policy</Link>
-        </div>
       </div>
-      <div className="border-t border-[#1a1a1a] py-4 text-center relative flex flex-col md:flex-row justify-center items-center gap-4">
+      <div className="border-t border-[#1a1a1a] py-6 text-center relative flex flex-col md:flex-row justify-center items-center gap-4">
         <p className="tag-label text-gray-600">&copy; {new Date().getFullYear()} NOVUM STORE. ALL RIGHTS RESERVED.</p>
-        <Link href="/admin" className="text-xs uppercase tracking-widest text-gray-700 hover:text-white transition-colors">Area Gestione</Link>
+        <Link href="/admin" className="text-[10px] uppercase tracking-widest text-gray-800 hover:text-white transition-colors">Area Gestione</Link>
       </div>
     </footer>
   );

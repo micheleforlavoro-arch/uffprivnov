@@ -17,6 +17,8 @@ interface ProductProps {
 export default function ProductCard({ id, name, price, image, tagId, material, fit, stock_quantity }: ProductProps) {
   const { addToCart } = useCart();
   const isSoldOut = stock_quantity <= 0;
+  const isLastPiece = stock_quantity === 1;
+  const isUnique = tagId.includes('1/1');
 
   return (
     <div className={`group flex flex-col tag-border bg-[#0a0a0a] transition-colors ${isSoldOut ? '' : 'hover:border-gray-500'}`}>
@@ -34,14 +36,30 @@ export default function ProductCard({ id, name, price, image, tagId, material, f
         />
         
         {isSoldOut && (
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center z-20">
             <span className="bg-red-600 text-white font-bold uppercase tracking-widest px-4 py-2 border tag-border border-red-800 -rotate-12">
               Sold Out
             </span>
           </div>
         )}
+
+        {!isSoldOut && isLastPiece && (
+          <div className="absolute top-4 left-4 z-20 animate-pulse">
+            <span className="bg-white text-black font-bold uppercase tracking-widest px-2 py-1 text-[10px] tag-border">
+              Ultimo Pezzo
+            </span>
+          </div>
+        )}
+
+        {!isSoldOut && isUnique && !isLastPiece && (
+          <div className="absolute top-4 left-4 z-20">
+            <span className="bg-[#111] text-gray-300 font-bold uppercase tracking-widest px-2 py-1 text-[10px] tag-border border-gray-600">
+              Pezzo Unico
+            </span>
+          </div>
+        )}
         
-        <div className="absolute top-4 right-4 bg-white text-black px-2 py-1 tag-label font-bold">
+        <div className="absolute top-4 right-4 bg-white text-black px-2 py-1 tag-label font-bold z-20">
           {tagId}
         </div>
       </div>

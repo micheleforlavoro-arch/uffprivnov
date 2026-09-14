@@ -49,7 +49,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="collection" className="container mx-auto px-4 pb-24">
+      <section id="collection" className="container mx-auto px-4 pb-12">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b tag-border pb-4">
           <div>
             <h2 className="text-3xl font-bold uppercase tracking-tighter">Archivio</h2>
@@ -81,6 +81,23 @@ export default async function Home() {
             ))}
           </div>
         )}
+      </section>
+
+      <section className="container mx-auto px-4 pb-24">
+        <div className="flex justify-between items-center mb-8 border-b tag-border pb-4">
+          <h2 className="text-2xl font-bold uppercase tracking-tighter">@NOVUMSTORE</h2>
+          <a href="#" className="tag-label hover:text-white transition-colors">Seguici su Instagram</a>
+        </div>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="aspect-square bg-[#0a0a0a] border tag-border relative overflow-hidden group cursor-pointer">
+              <div className="absolute inset-0 bg-[#111] flex items-center justify-center filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                <span className="text-gray-600 font-mono text-xs opacity-50 group-hover:opacity-100">IG_POST_0{i}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );
