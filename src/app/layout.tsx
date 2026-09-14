@@ -17,8 +17,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NovumStore | Streetwear",
-  description: "E-commerce vetrina in stile streetwear dark.",
+  title: "Novum Store",
+  description: "Pezzi unici e archivi accuratamente selezionati.",
 };
 
 export default function RootLayout({
