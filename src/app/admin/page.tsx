@@ -99,12 +99,12 @@ export default function AdminDashboard() {
                       </td>
                       <td className="p-4">&euro;{p.price.toFixed(2)}</td>
                       <td className="p-4">
-                        <span className={\`px-2 py-1 \${p.stock_quantity > 0 ? 'text-white' : 'text-red-500 bg-red-500/10'} border tag-border\`}>
+                        <span className={`px-2 py-1 ${p.stock_quantity > 0 ? 'text-white' : 'text-red-500 bg-red-500/10'} border tag-border`}>
                           {p.stock_quantity}
                         </span>
                       </td>
                       <td className="p-4">
-                        <span className={\`tag-label px-2 py-1 \${p.is_visible ? 'text-green-400 bg-green-400/10' : 'text-gray-500 bg-gray-800'}\`}>
+                        <span className={`tag-label px-2 py-1 ${p.is_visible ? 'text-green-400 bg-green-400/10' : 'text-gray-500 bg-gray-800'}`}>
                           {p.is_visible ? 'Visibile' : 'Nascosto'}
                         </span>
                       </td>

@@ -26,7 +26,7 @@ export default function ProductForm({ onSuccess }: { onSuccess: () => void }) {
       // 1. Upload image if exists
       if (file) {
         const fileExt = file.name.split('.').pop();
-        const fileName = \`\${Math.random()}.\${fileExt}\`;
+        const fileName = `${Math.random()}.${fileExt}`;
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from("products")
           .upload(fileName, file);
