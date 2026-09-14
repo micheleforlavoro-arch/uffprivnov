@@ -24,6 +24,12 @@ type Message = {
   created_at: string;
 };
 
+type Subscriber = {
+  id: string;
+  email: string;
+  created_at: string;
+};
+
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
@@ -31,6 +37,7 @@ export default function AdminDashboard() {
   
   const [products, setProducts] = useState<Product[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchProducts = async () => {
@@ -57,9 +64,21 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchSubscribers = async () => {
+    const { data, error } = await supabase
+      .from('newsletter')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (!error && data) {
+      setSubscribers(data);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
     fetchMessages();
+    fetchSubscribers();
   }, []);
 
   const toggleVisibility = async (id: string, currentStatus: boolean) => {
@@ -209,6 +228,33 @@ export default function AdminDashboard() {
                 </div>
               </div>
             ))
+          )}
+        </div>
+      </div>
+
+      <div className="border tag-border bg-[#050505] overflow-hidden mt-8">
+        <div className="p-4 border-b tag-border flex justify-between items-center">
+          <h3 className="text-lg font-bold uppercase">Iscritti Newsletter (Drop Alert)</h3>
+          <div className="flex gap-4 items-center">
+            <span className="text-xs tag-label text-gray-500">Totale: {subscribers.length}</span>
+            <button onClick={fetchSubscribers} className="text-xs tag-label hover:text-white transition-colors">Aggiorna</button>
+          </div>
+        </div>
+        
+        <div className="divide-y divide-[#1a1a1a]">
+          {subscribers.length === 0 ? (
+            <div className="p-8 text-center text-gray-500">Nessun iscritto alla newsletter.</div>
+          ) : (
+            <div className="p-6">
+              <div className="flex flex-wrap gap-2">
+                {subscribers.map((sub) => (
+                  <div key={sub.id} className="bg-[#111] border border-[#222] px-3 py-1 text-sm text-gray-300 flex items-center gap-3">
+                    <span>{sub.email}</span>
+                    <span className="text-[10px] text-gray-600">{new Date(sub.created_at).toLocaleDateString('it-IT')}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </div>
