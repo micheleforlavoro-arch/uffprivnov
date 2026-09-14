@@ -77,9 +77,9 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: { onSu
       onSuccess();
       if (!initialData) e.currentTarget.reset();
       setFile(null);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Errore durante il salvataggio:", error);
-      alert("Errore durante il salvataggio del prodotto");
+      alert(`Errore: ${error.message || JSON.stringify(error)}`);
     } finally {
       setLoading(false);
     }
