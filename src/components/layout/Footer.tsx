@@ -12,11 +12,12 @@ export default function Footer() {
     e.preventDefault();
     setLoading(true);
     try {
-      await supabase.from("newsletter").insert([{ email }]);
+      const { error } = await supabase.from("newsletter").insert([{ email }]);
+      if (error) throw error;
       alert("Iscrizione completata!");
       setEmail("");
-    } catch (err) {
-      alert("Errore durante l'iscrizione");
+    } catch (err: any) {
+      alert(`Errore durante l'iscrizione: ${err.message || JSON.stringify(err)}`);
     } finally {
       setLoading(false);
     }
