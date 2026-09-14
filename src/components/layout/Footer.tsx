@@ -31,7 +31,7 @@ export default function Footer() {
           <h3 className="tag-label text-gray-400 mb-2">Info</h3>
           <Link href="/chi-siamo" className="text-sm text-gray-400 hover:text-white">Chi Siamo</Link>
           <Link href="/contatti" className="text-sm text-gray-400 hover:text-white">Contatti & Supporto</Link>
-          <Link href="#" className="text-sm text-gray-400 hover:text-white">Privacy Policy</Link>
+          <Link href="/privacy" className="text-sm text-gray-400 hover:text-white">Privacy Policy</Link>
         </div>
       </div>
       <div className="border-t border-[#1a1a1a] py-4 text-center relative flex flex-col md:flex-row justify-center items-center gap-4">
