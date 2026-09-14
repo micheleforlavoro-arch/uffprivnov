@@ -16,12 +16,21 @@ type Product = {
   is_visible: boolean;
 };
 
+type Message = {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  created_at: string;
+};
+
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
   const [loginError, setLoginError] = useState("");
   
   const [products, setProducts] = useState<Product[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchProducts = async () => {
@@ -37,8 +46,20 @@ export default function AdminDashboard() {
     setLoading(false);
   };
 
+  const fetchMessages = async () => {
+    const { data, error } = await supabase
+      .from('contacts')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (!error && data) {
+      setMessages(data);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchMessages();
   }, []);
 
   const toggleVisibility = async (id: string, currentStatus: boolean) => {
@@ -160,6 +181,36 @@ export default function AdminDashboard() {
             </table>
           </div>
         )}
+      </div>
+
+      <div className="border tag-border bg-[#050505] overflow-hidden mt-8">
+        <div className="p-4 border-b tag-border flex justify-between items-center">
+          <h3 className="text-lg font-bold uppercase">Messaggi Ricevuti</h3>
+          <button onClick={fetchMessages} className="text-xs tag-label hover:text-white transition-colors">Aggiorna</button>
+        </div>
+        
+        <div className="divide-y divide-[#1a1a1a]">
+          {messages.length === 0 ? (
+            <div className="p-8 text-center text-gray-500">Nessun messaggio ricevuto.</div>
+          ) : (
+            messages.map((msg) => (
+              <div key={msg.id} className="p-6 hover:bg-[#0a0a0a] transition-colors">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h4 className="font-bold text-white uppercase">{msg.name}</h4>
+                    <a href={`mailto:${msg.email}`} className="text-sm text-gray-400 hover:text-white transition-colors">{msg.email}</a>
+                  </div>
+                  <span className="text-xs tag-label text-gray-500">
+                    {new Date(msg.created_at).toLocaleString('it-IT')}
+                  </span>
+                </div>
+                <div className="text-gray-300 text-sm whitespace-pre-wrap bg-[#111] p-4 border border-[#222]">
+                  {msg.message}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
