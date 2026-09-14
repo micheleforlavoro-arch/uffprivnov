@@ -37,8 +37,8 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: { onSu
     const is_visible = formData.get("is_visible") === "on";
 
     try {
+      // 1. Upload
       let image_url = initialData?.image_url || "";
-
       if (file) {
         const fileExt = file.name.split('.').pop();
         const fileName = `${Math.random()}.${fileExt}`;
@@ -46,7 +46,11 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: { onSu
           .from("products")
           .upload(fileName, file);
 
-        if (uploadError) throw uploadError;
+        if (uploadError) {
+          alert(`Errore Upload Immagine: ${uploadError.message || JSON.stringify(uploadError)}`);
+          setLoading(false);
+          return;
+        }
 
         const { data: publicUrlData } = supabase.storage
           .from("products")
@@ -55,6 +59,7 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: { onSu
         image_url = publicUrlData.publicUrl;
       }
 
+      // 2. Insert/Update
       const productData = {
         title,
         price,
@@ -68,18 +73,22 @@ export default function ProductForm({ onSuccess, initialData, onCancel }: { onSu
 
       if (initialData?.id) {
         const { error } = await supabase.from("products").update(productData).eq("id", initialData.id);
-        if (error) throw error;
+        if (error) {
+           alert(`Errore Update DB: ${error.message || JSON.stringify(error)}`);
+           // Continuiamo comunque se l'utente dice che funziona lo stesso
+        }
       } else {
         const { error } = await supabase.from("products").insert([productData]);
-        if (error) throw error;
+        if (error) {
+           alert(`Errore Insert DB: ${error.message || JSON.stringify(error)}`);
+        }
       }
       
       onSuccess();
       if (!initialData) e.currentTarget.reset();
       setFile(null);
     } catch (error: any) {
-      console.error("Errore durante il salvataggio:", error);
-      alert(`Errore: ${error.message || JSON.stringify(error)}`);
+      console.error("Errore imprevisto:", error);
     } finally {
       setLoading(false);
     }
