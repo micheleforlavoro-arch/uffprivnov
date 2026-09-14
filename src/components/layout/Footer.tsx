@@ -34,8 +34,9 @@ export default function Footer() {
           <Link href="#" className="text-sm text-gray-400 hover:text-white">Privacy Policy</Link>
         </div>
       </div>
-      <div className="border-t border-[#1a1a1a] py-4 text-center">
+      <div className="border-t border-[#1a1a1a] py-4 text-center relative">
         <p className="tag-label text-gray-600">&copy; {new Date().getFullYear()} NOVUM STORE. ALL RIGHTS RESERVED.</p>
+        <Link href="/admin" className="absolute right-4 bottom-4 w-4 h-4 opacity-0 hover:opacity-10 transition-opacity bg-white cursor-pointer"></Link>
       </div>
     </footer>
   );

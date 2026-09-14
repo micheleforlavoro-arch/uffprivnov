@@ -22,30 +22,30 @@ export default async function Home() {
     <div className="flex flex-col gap-24">
       <section className="relative h-[80vh] w-full flex items-center justify-center overflow-hidden border-b tag-border">
         <div className="absolute inset-0 bg-[#050505] z-0">
-          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=2000&auto=format&fit=crop')", backgroundSize: "cover", backgroundPosition: "center", filter: "grayscale(100%)" }}></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent"></div>
+          <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2000&auto=format&fit=crop')", backgroundSize: "cover", backgroundPosition: "center", filter: "grayscale(100%) contrast(120%)" }}></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]"></div>
         </div>
         
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
-          <div className="border tag-border px-3 py-1 mb-6">
-            <span className="tag-label text-gray-400">Collezione 01</span>
+          <div className="border tag-border px-3 py-1 mb-6 bg-black/50 backdrop-blur-sm">
+            <span className="tag-label text-gray-300">Collezione 01</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-6 leading-tight">
-            Redefining <br/> The Underground
+            Urban <br/> Armor
           </h1>
           <p className="text-gray-400 max-w-lg mb-10 text-lg">
-            Pezzi unici, materiali tecnici e un&apos;estetica brutalista. Esplora la nuova collezione limitata.
+            Equipaggiamento streetwear d&apos;alta gamma per il paesaggio urbano. Volumi architettonici e texture industriali.
           </p>
           <a href="#collection" className="bg-white text-black px-8 py-4 uppercase font-bold tracking-widest hover:bg-gray-200 transition-colors">
-            Scopri i capi
+            Esplora l&apos;Archivio
           </a>
         </div>
         
-        <div className="absolute bottom-8 left-8 hidden md:block">
-          <p className="tag-label text-gray-500">EST. 2026</p>
+        <div className="absolute bottom-8 left-8 hidden md:block bg-black/50 backdrop-blur-sm px-2 py-1">
+          <p className="tag-label text-gray-400">EST. 2026</p>
         </div>
-        <div className="absolute bottom-8 right-8 hidden md:block">
-          <p className="tag-label text-gray-500">TOKYO / MILANO</p>
+        <div className="absolute bottom-8 right-8 hidden md:block bg-black/50 backdrop-blur-sm px-2 py-1">
+          <p className="tag-label text-gray-400">[Luogo da inserire]</p>
         </div>
       </section>
 

@@ -75,10 +75,21 @@ export default function CartDrawer() {
             <button 
               className="w-full py-4 bg-white text-black font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors flex justify-center items-center gap-2"
               onClick={async () => {
-                // TODO: Integrazione Stripe
-                // Qui faremo una fetch a /api/checkout passando gli ID dei prodotti
-                // e otterremo l'URL della sessione Stripe per fare il redirect.
-                alert(`Integrazione Stripe in arrivo! Totale da pagare: €${cartTotal.toFixed(2)}`);
+                try {
+                  const res = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items: cart }),
+                  });
+                  const data = await res.json();
+                  if (data.url) {
+                    window.location.href = data.url;
+                  } else {
+                    alert("Errore Stripe: " + (data.error || "Chiave segreta mancante"));
+                  }
+                } catch (err) {
+                  alert("Errore di connessione a Stripe");
+                }
               }}
             >
               Procedi al Pagamento Sicuro

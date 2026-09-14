@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import ProductForm from "@/components/admin/ProductForm";
 import Image from "next/image";
+import { checkPassword } from "./actions";
 
 type Product = {
   id: string;
@@ -16,6 +17,10 @@ type Product = {
 };
 
 export default function AdminDashboard() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [loginError, setLoginError] = useState("");
+  
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,6 +51,38 @@ export default function AdminDashboard() {
       fetchProducts();
     }
   };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const isOk = await checkPassword(passwordInput);
+    if (isOk) {
+      setIsAuthenticated(true);
+      setLoginError("");
+    } else {
+      setLoginError("Password errata");
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="max-w-md mx-auto mt-20 p-8 border tag-border bg-[#050505]">
+        <h1 className="text-2xl font-bold uppercase tracking-widest mb-6 text-center">Admin Access</h1>
+        <form onSubmit={handleLogin} className="flex flex-col gap-4">
+          <input 
+            type="password" 
+            placeholder="Inserisci Password" 
+            value={passwordInput}
+            onChange={(e) => setPasswordInput(e.target.value)}
+            className="bg-transparent border tag-border p-3 text-center focus:border-white outline-none"
+          />
+          {loginError && <p className="text-red-500 text-sm text-center font-bold">{loginError}</p>}
+          <button type="submit" className="w-full bg-white text-black font-bold uppercase tracking-widest py-3 hover:bg-gray-200 transition-colors">
+            Entra
+          </button>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto flex flex-col gap-8">
