@@ -32,7 +32,7 @@ export default function ProductCard({ id, name, price, image, tagId, material, f
           src={image || "/placeholder.png"}
           alt={name}
           fill
-          className={`object-cover ${isSoldOut ? 'opacity-40 grayscale' : 'opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 filter grayscale group-hover:grayscale-0'}`}
+          className={`object-cover ${isSoldOut ? 'opacity-40 grayscale' : 'opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500'}`}
         />
         
         {isSoldOut && (
