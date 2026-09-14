@@ -1,11 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 
-export default function ProductForm({ onSuccess }: { onSuccess: () => void }) {
+export default function ProductForm({ onSuccess, initialData, onCancel }: { onSuccess: () => void, initialData?: any, onCancel?: () => void }) {
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (formRef.current && initialData) {
+      const form = formRef.current;
+      (form.elements.namedItem("title") as HTMLInputElement).value = initialData.title || "";
+      (form.elements.namedItem("tag_id") as HTMLInputElement).value = initialData.tag_id || "";
+      (form.elements.namedItem("price") as HTMLInputElement).value = initialData.price || "";
+      (form.elements.namedItem("stock_quantity") as HTMLInputElement).value = initialData.stock_quantity || "0";
+      (form.elements.namedItem("material") as HTMLInputElement).value = initialData.material || "";
+      (form.elements.namedItem("fit") as HTMLInputElement).value = initialData.fit || "";
+      (form.elements.namedItem("is_visible") as HTMLInputElement).checked = initialData.is_visible;
+    } else if (formRef.current && !initialData) {
+      formRef.current.reset();
+    }
+  }, [initialData]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,9 +37,8 @@ export default function ProductForm({ onSuccess }: { onSuccess: () => void }) {
     const is_visible = formData.get("is_visible") === "on";
 
     try {
-      let image_url = "";
+      let image_url = initialData?.image_url || "";
 
-      // 1. Upload image if exists
       if (file) {
         const fileExt = file.name.split('.').pop();
         const fileName = `${Math.random()}.${fileExt}`;
@@ -40,24 +55,27 @@ export default function ProductForm({ onSuccess }: { onSuccess: () => void }) {
         image_url = publicUrlData.publicUrl;
       }
 
-      // 2. Insert product
-      const { error: insertError } = await supabase.from("products").insert([
-        {
-          title,
-          price,
-          stock_quantity,
-          tag_id,
-          material,
-          fit,
-          is_visible,
-          image_url: image_url || null,
-        }
-      ]);
+      const productData = {
+        title,
+        price,
+        stock_quantity,
+        tag_id,
+        material,
+        fit,
+        is_visible,
+        image_url: image_url || null,
+      };
 
-      if (insertError) throw insertError;
+      if (initialData?.id) {
+        const { error } = await supabase.from("products").update(productData).eq("id", initialData.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from("products").insert([productData]);
+        if (error) throw error;
+      }
       
       onSuccess();
-      e.currentTarget.reset();
+      if (!initialData) e.currentTarget.reset();
       setFile(null);
     } catch (error) {
       console.error("Errore durante il salvataggio:", error);
@@ -68,8 +86,13 @@ export default function ProductForm({ onSuccess }: { onSuccess: () => void }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="border tag-border p-6 bg-[#050505] space-y-4">
-      <h3 className="text-xl font-bold uppercase mb-4">Aggiungi Nuovo Capo</h3>
+    <form ref={formRef} onSubmit={handleSubmit} className={`border tag-border p-6 space-y-4 ${initialData ? 'bg-[#111] border-white' : 'bg-[#050505]'}`}>
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-xl font-bold uppercase">{initialData ? "Modifica Capo" : "Aggiungi Nuovo Capo"}</h3>
+        {initialData && onCancel && (
+          <button type="button" onClick={onCancel} className="text-xs uppercase tracking-widest tag-label hover:text-white">Annulla</button>
+        )}
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
@@ -99,7 +122,7 @@ export default function ProductForm({ onSuccess }: { onSuccess: () => void }) {
       </div>
 
       <div className="flex flex-col gap-1">
-        <label className="tag-label text-gray-400">Immagine</label>
+        <label className="tag-label text-gray-400">Immagine (lascia vuoto per mantenere {initialData?.image_url ? 'l\'attuale' : 'vuoto'})</label>
         <input 
           type="file" 
           accept="image/*" 
@@ -118,7 +141,7 @@ export default function ProductForm({ onSuccess }: { onSuccess: () => void }) {
         disabled={loading}
         className="w-full mt-4 bg-white text-black font-bold uppercase tracking-widest py-3 hover:bg-gray-200 transition-colors disabled:opacity-50"
       >
-        {loading ? "Salvataggio..." : "Salva Prodotto"}
+        {loading ? "Salvataggio..." : (initialData ? "Aggiorna Prodotto" : "Salva Prodotto")}
       </button>
     </form>
   );

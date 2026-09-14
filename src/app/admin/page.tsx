@@ -39,6 +39,7 @@ export default function AdminDashboard() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editingProduct, setEditingProduct] = useState<Product | undefined>(undefined);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -51,6 +52,16 @@ export default function AdminDashboard() {
       setProducts(data);
     }
     setLoading(false);
+  };
+
+  const deleteProduct = async (id: string) => {
+    if (confirm("Sei sicuro di voler eliminare definitivamente questo capo?")) {
+      const { error } = await supabase.from('products').delete().eq('id', id);
+      if (!error) {
+        fetchProducts();
+        if (editingProduct?.id === id) setEditingProduct(undefined);
+      }
+    }
   };
 
   const fetchMessages = async () => {
@@ -131,7 +142,14 @@ export default function AdminDashboard() {
         <p className="text-gray-400">Aggiungi nuovi pezzi unici o modifica la disponibilita&apos;.</p>
       </div>
 
-      <ProductForm onSuccess={fetchProducts} />
+      <ProductForm 
+        onSuccess={() => {
+          fetchProducts();
+          setEditingProduct(undefined);
+        }} 
+        initialData={editingProduct}
+        onCancel={() => setEditingProduct(undefined)}
+      />
 
       <div className="border tag-border bg-[#050505] overflow-hidden">
         <div className="p-4 border-b tag-border">
@@ -186,12 +204,29 @@ export default function AdminDashboard() {
                         </span>
                       </td>
                       <td className="p-4">
-                        <button 
-                          onClick={() => toggleVisibility(p.id, p.is_visible)}
-                          className="text-xs uppercase tracking-widest border tag-border px-3 py-1 hover:bg-white hover:text-black transition-colors"
-                        >
-                          {p.is_visible ? 'Nascondi' : 'Mostra'}
-                        </button>
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => toggleVisibility(p.id, p.is_visible)}
+                            className="text-[10px] uppercase tracking-widest border tag-border px-2 py-1 hover:bg-white hover:text-black transition-colors"
+                          >
+                            {p.is_visible ? 'Nascondi' : 'Mostra'}
+                          </button>
+                          <button 
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                              setEditingProduct(p);
+                            }}
+                            className="text-[10px] uppercase tracking-widest border tag-border px-2 py-1 hover:bg-white hover:text-black transition-colors"
+                          >
+                            Modifica
+                          </button>
+                          <button 
+                            onClick={() => deleteProduct(p.id)}
+                            className="text-[10px] uppercase tracking-widest border border-red-900 text-red-500 px-2 py-1 hover:bg-red-900 hover:text-white transition-colors"
+                          >
+                            Elimina
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))
