@@ -22,7 +22,9 @@ export default function Header({ onOpenSearch }: HeaderProps) {
 
   return (
     <header className="fixed top-0 w-full z-50 bg-[#000000]/95 backdrop-blur-md border-b border-[#1c1c1c]">
-      <div className="container mx-auto px-4 sm:px-6 h-20 flex items-center justify-between relative">
+      
+      {/* MAIN NAV ROW (HIGHER STACKING CONTEXT Z-30) */}
+      <div className="container mx-auto px-4 sm:px-6 h-20 flex items-center justify-between relative z-30">
         
         {/* LEFT: NAVIGATION MENU WITH DROPDOWNS */}
         <div className="flex items-center gap-6">
@@ -48,14 +50,14 @@ export default function Header({ onOpenSearch }: HeaderProps) {
               </Link>
 
               {activeDropdown === "shop" && (
-                <div className="absolute top-full left-0 w-52 bg-[#0a0a0a] border border-[#222] rounded-xl shadow-2xl py-3 px-2 flex flex-col gap-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
+                <div className="absolute top-full left-0 w-56 bg-[#0d0d0d] border border-[#333] rounded-xl shadow-2xl py-3 px-2 flex flex-col gap-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors font-mono cursor-pointer">
                     Tutti i Capi
                   </Link>
-                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
+                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors font-mono cursor-pointer">
                     Nuovi Arrivi (Drop 01)
                   </Link>
-                  <Link href="/chi-siamo" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
+                  <Link href="/chi-siamo" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors font-mono cursor-pointer">
                     L&apos;Archivio
                   </Link>
                 </div>
@@ -76,17 +78,17 @@ export default function Header({ onOpenSearch }: HeaderProps) {
               </Link>
 
               {activeDropdown === "prodotti" && (
-                <div className="absolute top-full left-0 w-52 bg-[#0a0a0a] border border-[#222] rounded-xl shadow-2xl py-3 px-2 flex flex-col gap-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
+                <div className="absolute top-full left-0 w-56 bg-[#0d0d0d] border border-[#333] rounded-xl shadow-2xl py-3 px-2 flex flex-col gap-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors font-mono cursor-pointer">
                     Giacche & Outerwear
                   </Link>
-                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
+                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors font-mono cursor-pointer">
                     Felpe & Hoodies
                   </Link>
-                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
+                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors font-mono cursor-pointer">
                     T-Shirt & Top
                   </Link>
-                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
+                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors font-mono cursor-pointer">
                     Pantaloni & Cargo
                   </Link>
                 </div>
@@ -159,14 +161,14 @@ export default function Header({ onOpenSearch }: HeaderProps) {
         </div>
       </div>
 
-      {/* ANNOUNCEMENT MARQUEE BAR INTEGRATED INSIDE HEADER BELOW MAIN ROW */}
-      <div className="border-t border-[#1a1a1a]">
+      {/* ANNOUNCEMENT MARQUEE BAR INTEGRATED INSIDE HEADER BELOW MAIN ROW (LOWER STACKING CONTEXT Z-10) */}
+      <div className="border-t border-[#1a1a1a] relative z-10">
         <AnnouncementBar />
       </div>
 
       {/* MOBILE MENU SLIDE OVER */}
       {mobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-[#050505] border-b border-[#222] py-6 px-6 flex flex-col gap-4 font-mono animate-in slide-in-from-top-5 duration-150 shadow-2xl">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-[#050505] border-b border-[#222] py-6 px-6 flex flex-col gap-4 font-mono animate-in slide-in-from-top-5 duration-150 shadow-2xl z-50">
           <Link
             href="/#collection"
             onClick={() => setMobileMenuOpen(false)}
