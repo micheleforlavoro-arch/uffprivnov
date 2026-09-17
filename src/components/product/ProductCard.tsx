@@ -36,15 +36,12 @@ export default function ProductCard({
   const isUnique = tagId.includes("1/1");
   const favorited = isInWishlist(id);
 
-  // Mock calculated discount price for visual flair
-  const originalPrice = price * 1.35;
-
   return (
-    <div className={`group flex flex-col tag-border bg-[#0a0a0a] rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-white/5 border border-[#1f1f1f] ${isSoldOut ? 'opacity-70' : 'hover:border-gray-400'}`}>
+    <div className={`group flex flex-col tag-border bg-[#070707] rounded-xl overflow-hidden transition-all duration-300 border border-[#1a1a1a] ${isSoldOut ? 'opacity-65' : 'hover:border-gray-500'}`}>
       
-      {/* IMAGE CONTAINER WITH BADGES & HOVER OVERLAY */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#111] p-4">
-        {/* Border corner decorations */}
+      {/* IMAGE CONTAINER WITH AUTHENTIC BADGES & HOVER OVERLAY */}
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#0c0c0c] p-4">
+        {/* Border corner geometric marks */}
         <div className="absolute top-2 left-2 w-2 h-2 border-t border-l border-gray-700"></div>
         <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-gray-700"></div>
         <div className="absolute bottom-2 left-2 w-2 h-2 border-b border-l border-gray-700"></div>
@@ -67,40 +64,36 @@ export default function ProductCard({
           }}
           className={`absolute top-3 right-3 z-20 p-2 rounded-full backdrop-blur-md transition-all ${
             favorited
-              ? "bg-red-600 text-white shadow-lg"
-              : "bg-black/60 text-gray-300 hover:text-white hover:bg-black/80"
+              ? "bg-white text-black shadow-lg"
+              : "bg-black/60 text-gray-400 hover:text-white hover:bg-black/80"
           }`}
           title={favorited ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}
         >
-          <Heart size={16} fill={favorited ? "currentColor" : "none"} />
+          <Heart size={15} fill={favorited ? "currentColor" : "none"} />
         </button>
 
-        {/* TAG BADGES (TOP LEFT) */}
-        <div className="absolute top-3 left-3 z-20 flex flex-col gap-1.5 items-start">
-          <span className="bg-red-600 text-white font-extrabold uppercase text-[10px] px-2 py-0.5 rounded shadow">
-            -35% OFF
-          </span>
-
+        {/* AUTHENTIC TAG BADGES (TOP LEFT) */}
+        <div className="absolute top-3 left-3 z-20 flex flex-col gap-1.5 items-start font-mono">
           {isSoldOut ? (
-            <span className="bg-red-950 text-red-200 border border-red-800 font-bold uppercase text-[10px] px-2 py-0.5 rounded">
+            <span className="bg-[#181818] text-gray-400 border border-[#333] font-bold uppercase text-[10px] px-2 py-0.5 rounded">
               Sold Out
             </span>
           ) : isLastPiece ? (
-            <span className="bg-white text-black font-extrabold uppercase text-[10px] px-2 py-0.5 rounded animate-pulse">
+            <span className="bg-white text-black font-extrabold uppercase text-[10px] px-2 py-0.5 rounded">
               Ultimo Pezzo
             </span>
           ) : isUnique ? (
-            <span className="bg-[#181818] text-gray-200 border border-gray-600 font-bold uppercase text-[10px] px-2 py-0.5 rounded">
-              Pezzo Unico
+            <span className="bg-[#121212] text-gray-200 border border-gray-600 font-bold uppercase text-[10px] px-2 py-0.5 rounded">
+              Pezzo Unico 1/1
             </span>
           ) : null}
         </div>
 
-        {/* HOVER OVERLAY WITH QUICK VIEW & QUICK ADD BUTTONS */}
-        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black via-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 flex flex-col gap-2">
+        {/* HOVER OVERLAY WITH VISTA RAPIDA & ACQUISTA */}
+        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black via-black/85 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20 flex flex-col gap-2 font-mono">
           <button
             onClick={onQuickView}
-            className="w-full bg-black/80 hover:bg-black text-white border border-gray-500 font-bold uppercase tracking-wider text-xs py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 backdrop-blur-sm"
+            className="w-full bg-[#121212] hover:bg-[#1a1a1a] text-white border border-[#333] font-bold uppercase tracking-widest text-xs py-2.5 rounded-lg transition-all flex items-center justify-center gap-2"
           >
             <Eye size={14} /> Vista Rapida
           </button>
@@ -108,51 +101,48 @@ export default function ProductCard({
           <button
             disabled={isSoldOut}
             onClick={() => addToCart({ id, name, price, image, tagId, quantity: 1 })}
-            className="w-full bg-white hover:bg-gray-200 text-black font-extrabold uppercase tracking-wider text-xs py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-40"
+            className="w-full bg-white hover:bg-gray-200 text-black font-bold uppercase tracking-widest text-xs py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 disabled:opacity-40"
           >
-            <ShoppingBag size={14} /> {isSoldOut ? "Esaurito" : "Acquisto Rapido"}
+            <ShoppingBag size={14} /> {isSoldOut ? "Esaurito" : "Aggiungi al Carrello"}
           </button>
         </div>
       </div>
 
       {/* CARD INFO */}
-      <div className="p-5 flex flex-col flex-grow bg-[#0c0c0c]">
+      <div className="p-4 flex flex-col flex-grow bg-[#090909]">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-base font-bold uppercase tracking-tight text-white truncate max-w-[70%]">{name}</h3>
-          <span className="tag-label text-gray-500 text-[10px] font-bold border border-[#262626] px-1.5 py-0.5 rounded">
+          <span className="tag-label text-gray-500 text-[10px] font-mono border border-[#222] px-1.5 py-0.5 rounded">
             {tagId}
           </span>
         </div>
 
         {/* MATERIAL / FIT LABELS */}
-        <div className="grid grid-cols-2 gap-2 my-3">
-          <div className="bg-[#141414] border border-[#222] p-1.5 rounded-lg flex flex-col">
-            <span className="text-[9px] uppercase tracking-wider text-gray-500 font-mono">Materiale</span>
-            <span className="text-xs text-gray-300 truncate font-medium">{material || "100% Cotone"}</span>
+        <div className="grid grid-cols-2 gap-2 my-2.5 font-mono">
+          <div className="bg-[#121212] border border-[#222] p-1.5 rounded flex flex-col">
+            <span className="text-[9px] uppercase tracking-widest text-gray-500">Materiale</span>
+            <span className="text-[11px] text-gray-300 truncate">{material || "100% Cotone"}</span>
           </div>
-          <div className="bg-[#141414] border border-[#222] p-1.5 rounded-lg flex flex-col">
-            <span className="text-[9px] uppercase tracking-wider text-gray-500 font-mono">Fit</span>
-            <span className="text-xs text-gray-300 truncate font-medium">{fit || "Boxy Fit"}</span>
+          <div className="bg-[#121212] border border-[#222] p-1.5 rounded flex flex-col">
+            <span className="text-[9px] uppercase tracking-widest text-gray-500">Fit</span>
+            <span className="text-[11px] text-gray-300 truncate">{fit || "Boxy Fit"}</span>
           </div>
         </div>
 
         {/* PRICE & MAIN CTA */}
         <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#1c1c1c]">
-          <div className="flex items-baseline gap-2">
-            <span className="text-lg font-extrabold text-white">€{price.toFixed(2)}</span>
-            <span className="text-xs text-gray-500 line-through">€{originalPrice.toFixed(2)}</span>
-          </div>
+          <span className="text-base font-bold font-mono text-white">€{price.toFixed(2)}</span>
 
           <button
             disabled={isSoldOut}
             onClick={() => addToCart({ id, name, price, image, tagId, quantity: 1 })}
-            className={`px-3 py-1.5 rounded-lg uppercase text-xs tracking-wider font-bold transition-all ${
+            className={`px-3 py-1.5 rounded uppercase text-[11px] font-mono tracking-widest font-bold transition-all ${
               isSoldOut
-                ? "bg-[#161616] text-gray-600 border border-[#262626] cursor-not-allowed"
+                ? "bg-[#141414] text-gray-600 border border-[#222] cursor-not-allowed"
                 : "bg-white text-black hover:bg-gray-200"
             }`}
           >
-            {isSoldOut ? "Esaurito" : "+ Carrello"}
+            {isSoldOut ? "Esaurito" : "Aggiungi"}
           </button>
         </div>
       </div>

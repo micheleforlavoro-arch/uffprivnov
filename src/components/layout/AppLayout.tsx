@@ -6,7 +6,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
 import SearchDrawer from "@/components/search/SearchDrawer";
-import AssistanceWidget from "@/components/ui/AssistanceWidget";
+import MinimalSupport from "@/components/ui/MinimalSupport";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { CartProvider } from "@/context/CartContext";
 
@@ -23,7 +23,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <Footer />
           <CartDrawer />
           <SearchDrawer isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
-          <AssistanceWidget />
+          <MinimalSupport />
         </div>
       </WishlistProvider>
     </CartProvider>
