@@ -8,19 +8,24 @@ export interface WishlistItem {
   price: number;
   image: string;
   tagId: string;
+  stockQuantity?: number;
 }
 
 interface WishlistContextType {
   wishlist: WishlistItem[];
   toggleWishlist: (item: WishlistItem) => void;
+  removeFromWishlist: (id: string) => void;
   isInWishlist: (id: string) => boolean;
   wishlistCount: number;
+  isWishlistOpen: boolean;
+  setIsWishlistOpen: (isOpen: boolean) => void;
 }
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
 
 export const WishlistProvider = ({ children }: { children: React.ReactNode }) => {
   const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -51,6 +56,10 @@ export const WishlistProvider = ({ children }: { children: React.ReactNode }) =>
     });
   };
 
+  const removeFromWishlist = (id: string) => {
+    setWishlist((prev) => prev.filter((i) => i.id !== id));
+  };
+
   const isInWishlist = (id: string) => wishlist.some((i) => i.id === id);
 
   return (
@@ -58,8 +67,11 @@ export const WishlistProvider = ({ children }: { children: React.ReactNode }) =>
       value={{
         wishlist,
         toggleWishlist,
+        removeFromWishlist,
         isInWishlist,
         wishlistCount: wishlist.length,
+        isWishlistOpen,
+        setIsWishlistOpen,
       }}
     >
       {children}

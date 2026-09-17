@@ -13,7 +13,7 @@ interface HeaderProps {
 
 export default function Header({ onOpenSearch }: HeaderProps) {
   const { cart, setIsCartOpen, cartTotal } = useCart();
-  const { wishlistCount } = useWishlist();
+  const { wishlistCount, setIsWishlistOpen } = useWishlist();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
@@ -113,7 +113,7 @@ export default function Header({ onOpenSearch }: HeaderProps) {
           />
         </Link>
 
-        {/* RIGHT: SEARCH, WISHLIST & CART WITH REALTIME TOTAL */}
+        {/* RIGHT: SEARCH, WISHLIST DRAWER TRIGGER & CART WITH REALTIME TOTAL */}
         <div className="flex items-center gap-3 sm:gap-4 font-mono">
           {/* Search Trigger */}
           <button
@@ -124,11 +124,11 @@ export default function Header({ onOpenSearch }: HeaderProps) {
             <Search size={19} />
           </button>
 
-          {/* Wishlist Counter */}
-          <Link
-            href="/#collection"
+          {/* Wishlist Drawer Trigger */}
+          <button
+            onClick={() => setIsWishlistOpen(true)}
             className="relative p-2 text-gray-300 hover:text-white transition-colors"
-            title="Wishlist Preferiti"
+            title="Vedi Preferiti"
           >
             <Heart size={19} />
             {wishlistCount > 0 && (
@@ -136,7 +136,7 @@ export default function Header({ onOpenSearch }: HeaderProps) {
                 {wishlistCount}
               </span>
             )}
-          </Link>
+          </button>
 
           {/* Realtime Cart Button */}
           <button
