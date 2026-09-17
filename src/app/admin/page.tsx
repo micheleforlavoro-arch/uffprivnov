@@ -121,7 +121,7 @@ export default function AdminDashboard() {
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <input 
             type="password" 
-            placeholder="Inserisci Password" 
+            placeholder="Inserisci Password (novumadmin)" 
             value={passwordInput}
             onChange={(e) => setPasswordInput(e.target.value)}
             className="bg-transparent border tag-border p-3 text-center focus:border-white outline-none"
@@ -240,7 +240,7 @@ export default function AdminDashboard() {
       <div className="border tag-border bg-[#050505] overflow-hidden mt-8">
         <div className="p-4 border-b tag-border flex justify-between items-center">
           <h3 className="text-lg font-bold uppercase">Messaggi Ricevuti</h3>
-          <button onClick={fetchMessages} className="text-xs tag-label hover:text-white transition-colors">Aggiorna</button>
+          <button onClick={() => { fetchMessages(); alert("Messaggi aggiornati!"); }} className="text-[10px] uppercase tracking-widest border tag-border px-3 py-1 hover:bg-white hover:text-black transition-colors">Aggiorna</button>
         </div>
         
         <div className="divide-y divide-[#1a1a1a]">
@@ -272,7 +272,7 @@ export default function AdminDashboard() {
           <h3 className="text-lg font-bold uppercase">Iscritti Newsletter (Drop Alert)</h3>
           <div className="flex gap-4 items-center">
             <span className="text-xs tag-label text-gray-500">Totale: {subscribers.length}</span>
-            <button onClick={fetchSubscribers} className="text-xs tag-label hover:text-white transition-colors">Aggiorna</button>
+            <button onClick={() => { fetchSubscribers(); alert("Iscritti aggiornati!"); }} className="text-[10px] uppercase tracking-widest border tag-border px-3 py-1 hover:bg-white hover:text-black transition-colors">Aggiorna</button>
           </div>
         </div>
         

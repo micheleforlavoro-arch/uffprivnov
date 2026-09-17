@@ -20,10 +20,17 @@ body {
   font-family: var(--font-sans), sans-serif;
 }
 
-.tag-border { border: 1px solid var(--accent); }
+.tag-border { 
+  border: 1px solid var(--accent); 
+  border-radius: 0.5rem;
+}
 .tag-label {
   font-family: var(--font-mono), monospace;
   font-size: 0.75rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+}
+
+input, button, select, textarea {
+  border-radius: 0.5rem;
 }
