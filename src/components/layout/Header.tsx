@@ -6,6 +6,7 @@ import { ShoppingCart, Heart, Search, Menu, X, ChevronDown } from "lucide-react"
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useState } from "react";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
 
 interface HeaderProps {
   onOpenSearch?: () => void;
@@ -20,13 +21,13 @@ export default function Header({ onOpenSearch }: HeaderProps) {
   const cartItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <header className="fixed top-0 w-full z-40 bg-[#000000]/95 backdrop-blur-md border-b border-[#1c1c1c]">
-      <div className="container mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+    <header className="fixed top-0 w-full z-50 bg-[#000000]/95 backdrop-blur-md border-b border-[#1c1c1c]">
+      <div className="container mx-auto px-4 sm:px-6 h-20 flex items-center justify-between relative">
         
         {/* LEFT: NAVIGATION MENU WITH DROPDOWNS */}
         <div className="flex items-center gap-6">
           <button
-            className="lg:hidden p-2 -ml-2 text-white"
+            className="lg:hidden p-2 -ml-2 text-white cursor-pointer"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -41,20 +42,20 @@ export default function Header({ onOpenSearch }: HeaderProps) {
             >
               <Link
                 href="/#collection"
-                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-white py-2"
+                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-white py-2 cursor-pointer"
               >
                 Shop <ChevronDown size={14} />
               </Link>
 
               {activeDropdown === "shop" && (
-                <div className="absolute top-full left-0 w-48 bg-[#0a0a0a] border border-[#222] rounded-xl shadow-2xl py-3 px-2 flex flex-col gap-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
-                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono">
+                <div className="absolute top-full left-0 w-52 bg-[#0a0a0a] border border-[#222] rounded-xl shadow-2xl py-3 px-2 flex flex-col gap-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
                     Tutti i Capi
                   </Link>
-                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono">
+                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
                     Nuovi Arrivi (Drop 01)
                   </Link>
-                  <Link href="/chi-siamo" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono">
+                  <Link href="/chi-siamo" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
                     L&apos;Archivio
                   </Link>
                 </div>
@@ -69,23 +70,23 @@ export default function Header({ onOpenSearch }: HeaderProps) {
             >
               <Link
                 href="/#collection"
-                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-white py-2"
+                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-white py-2 cursor-pointer"
               >
                 Prodotti <ChevronDown size={14} />
               </Link>
 
               {activeDropdown === "prodotti" && (
-                <div className="absolute top-full left-0 w-52 bg-[#0a0a0a] border border-[#222] rounded-xl shadow-2xl py-3 px-2 flex flex-col gap-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
-                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono">
+                <div className="absolute top-full left-0 w-52 bg-[#0a0a0a] border border-[#222] rounded-xl shadow-2xl py-3 px-2 flex flex-col gap-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
                     Giacche & Outerwear
                   </Link>
-                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono">
+                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
                     Felpe & Hoodies
                   </Link>
-                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono">
+                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
                     T-Shirt & Top
                   </Link>
-                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono">
+                  <Link href="/#collection" className="px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-[#161616] rounded-lg transition-colors font-mono cursor-pointer">
                     Pantaloni & Cargo
                   </Link>
                 </div>
@@ -94,15 +95,15 @@ export default function Header({ onOpenSearch }: HeaderProps) {
 
             <Link
               href="/#collection"
-              className="text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-white py-2"
+              className="text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-white py-2 cursor-pointer"
             >
               Archivio 1/1
             </Link>
           </nav>
         </div>
 
-        {/* CENTER: STANDALONE PROMINENT BRAND LOGO (NO CIRCLE MASK, NO EXTRA TEXT) */}
-        <Link href="/" className="flex items-center justify-center py-1 transition-transform hover:scale-105">
+        {/* CENTER: STANDALONE PROMINENT BRAND LOGO */}
+        <Link href="/" className="flex items-center justify-center py-1 transition-transform hover:scale-105 cursor-pointer">
           <Image
             src="/logo.png"
             alt="Novum Store Logo"
@@ -118,7 +119,7 @@ export default function Header({ onOpenSearch }: HeaderProps) {
           {/* Search Trigger */}
           <button
             onClick={onOpenSearch}
-            className="p-2 text-gray-300 hover:text-white transition-colors"
+            className="p-2 text-gray-300 hover:text-white transition-colors cursor-pointer"
             title="Cerca nell'archivio"
           >
             <Search size={19} />
@@ -127,7 +128,7 @@ export default function Header({ onOpenSearch }: HeaderProps) {
           {/* Wishlist Drawer Trigger */}
           <button
             onClick={() => setIsWishlistOpen(true)}
-            className="relative p-2 text-gray-300 hover:text-white transition-colors"
+            className="relative p-2 text-gray-300 hover:text-white transition-colors cursor-pointer"
             title="Vedi Preferiti"
           >
             <Heart size={19} />
@@ -141,7 +142,7 @@ export default function Header({ onOpenSearch }: HeaderProps) {
           {/* Realtime Cart Button */}
           <button
             onClick={() => setIsCartOpen(true)}
-            className="flex items-center gap-2 bg-[#121212] hover:bg-white hover:text-black border border-[#2a2a2a] px-3.5 py-2 rounded-xl text-xs font-bold text-white transition-all shadow-md"
+            className="flex items-center gap-2 bg-[#121212] hover:bg-white hover:text-black border border-[#2a2a2a] px-3.5 py-2 rounded-xl text-xs font-bold text-white transition-all shadow-md cursor-pointer"
           >
             <div className="relative">
               <ShoppingCart size={17} />
@@ -158,41 +159,46 @@ export default function Header({ onOpenSearch }: HeaderProps) {
         </div>
       </div>
 
+      {/* ANNOUNCEMENT MARQUEE BAR INTEGRATED INSIDE HEADER BELOW MAIN ROW */}
+      <div className="border-t border-[#1a1a1a]">
+        <AnnouncementBar />
+      </div>
+
       {/* MOBILE MENU SLIDE OVER */}
       {mobileMenuOpen && (
-        <div className="lg:hidden absolute top-20 left-0 w-full bg-[#050505] border-b border-[#222] py-6 px-6 flex flex-col gap-4 font-mono animate-in slide-in-from-top-5 duration-150">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-[#050505] border-b border-[#222] py-6 px-6 flex flex-col gap-4 font-mono animate-in slide-in-from-top-5 duration-150 shadow-2xl">
           <Link
             href="/#collection"
             onClick={() => setMobileMenuOpen(false)}
-            className="text-base font-bold uppercase tracking-widest text-white"
+            className="text-base font-bold uppercase tracking-widest text-white cursor-pointer"
           >
             Tutti i Capi (Drop 01)
           </Link>
           <Link
             href="/#collection"
             onClick={() => setMobileMenuOpen(false)}
-            className="text-base font-bold uppercase tracking-widest text-gray-300"
+            className="text-base font-bold uppercase tracking-widest text-gray-300 cursor-pointer"
           >
             Pezzi Unici 1/1
           </Link>
           <Link
             href="/chi-siamo"
             onClick={() => setMobileMenuOpen(false)}
-            className="text-base font-bold uppercase tracking-widest text-gray-300"
+            className="text-base font-bold uppercase tracking-widest text-gray-300 cursor-pointer"
           >
             Chi Siamo
           </Link>
           <Link
             href="/faq"
             onClick={() => setMobileMenuOpen(false)}
-            className="text-base font-bold uppercase tracking-widest text-gray-300"
+            className="text-base font-bold uppercase tracking-widest text-gray-300 cursor-pointer"
           >
             FAQ & Guida Taglie
           </Link>
           <Link
             href="/contatti"
             onClick={() => setMobileMenuOpen(false)}
-            className="text-base font-bold uppercase tracking-widest text-gray-300"
+            className="text-base font-bold uppercase tracking-widest text-gray-300 cursor-pointer"
           >
             Contatti
           </Link>
