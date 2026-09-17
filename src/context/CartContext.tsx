@@ -9,11 +9,12 @@ export interface CartItem {
   quantity: number;
   image: string;
   tagId: string;
+  stockQuantity?: number;
 }
 
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (item: CartItem) => void;
+  addToCart: (item: Omit<CartItem, "quantity"> & { quantity?: number }) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   isCartOpen: boolean;
@@ -46,16 +47,34 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [cart, isMounted]);
 
-  const addToCart = (newItem: CartItem) => {
+  const addToCart = (newItem: Omit<CartItem, "quantity"> & { quantity?: number }) => {
+    const qtyToAdd = newItem.quantity || 1;
+
     setCart((prev) => {
       const existing = prev.find((item) => item.id === newItem.id);
+      const maxStock = newItem.stockQuantity !== undefined ? newItem.stockQuantity : 999;
+
       if (existing) {
+        const targetQty = existing.quantity + qtyToAdd;
+        if (targetQty > maxStock) {
+          alert(`Disponibilità massima per questo capo: ${maxStock} pz.`);
+          return prev.map((item) =>
+            item.id === newItem.id ? { ...item, quantity: maxStock, stockQuantity: maxStock } : item
+          );
+        }
         return prev.map((item) =>
-          item.id === newItem.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === newItem.id ? { ...item, quantity: targetQty, stockQuantity: maxStock } : item
         );
       }
-      return [...prev, { ...newItem, quantity: 1 }];
+
+      if (qtyToAdd > maxStock) {
+        alert(`Disponibilità massima per questo capo: ${maxStock} pz.`);
+        return [...prev, { ...newItem, quantity: maxStock, stockQuantity: maxStock }];
+      }
+
+      return [...prev, { ...newItem, quantity: qtyToAdd, stockQuantity: maxStock }];
     });
+
     setIsCartOpen(true);
   };
 
@@ -63,13 +82,24 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const updateQuantity = (id: string, quantity: number) => {
-    if (quantity < 1) {
+  const updateQuantity = (id: string, newQuantity: number) => {
+    if (newQuantity < 1) {
       removeFromCart(id);
       return;
     }
+
     setCart((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, quantity } : item))
+      prev.map((item) => {
+        if (item.id === id) {
+          const maxStock = item.stockQuantity !== undefined ? item.stockQuantity : 999;
+          if (newQuantity > maxStock) {
+            alert(`Disponibilità massima per questo capo: ${maxStock} pz.`);
+            return { ...item, quantity: maxStock };
+          }
+          return { ...item, quantity: newQuantity };
+        }
+        return item;
+      })
     );
   };
 

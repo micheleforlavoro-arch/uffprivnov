@@ -14,8 +14,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Novum Store | Streetwear Archive & Drop 01",
-  description: "E-commerce streetwear d'archivio. Pezzi unici, spedizione rapida e pagamento alla consegna.",
+  title: "Novum Store",
+  description: "Pezzi unici e archivi accuratamente selezionati.",
 };
 
 export default function RootLayout({

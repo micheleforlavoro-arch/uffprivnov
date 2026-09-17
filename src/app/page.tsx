@@ -41,7 +41,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-[#050505] text-[#f4f4f4]">
       
       {/* HERO SECTION "DROP 01" */}
-      <section className="relative min-h-[80vh] w-full flex items-center justify-center overflow-hidden bg-[#030303] border-b border-[#1c1c1c]">
+      <section className="relative min-h-[75vh] w-full flex items-center justify-center overflow-hidden bg-[#030303] border-b border-[#1c1c1c]">
         {/* Background Image with Dark Gradient overlay */}
         <div className="absolute inset-0 z-0">
           <div
@@ -65,13 +65,9 @@ export default function Home() {
             </span>
           </div>
 
-          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold uppercase tracking-tighter mb-6 leading-none text-white drop-shadow-2xl font-sans">
+          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold uppercase tracking-tighter mb-8 leading-none text-white drop-shadow-2xl font-sans">
             DROP <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-600">01</span>
           </h1>
-
-          <p className="text-gray-400 max-w-xl mb-10 text-sm sm:text-base font-sans font-light leading-relaxed">
-            Abbigliamento streetwear d&apos;archivio. Pezzi unici 1/1, silhouette strutturate e materiali di ricerca.
-          </p>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <a

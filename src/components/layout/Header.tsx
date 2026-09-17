@@ -6,7 +6,6 @@ import { ShoppingCart, Heart, Search, Menu, X, ChevronDown } from "lucide-react"
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useState } from "react";
-import { usePathname } from "next/navigation";
 
 interface HeaderProps {
   onOpenSearch?: () => void;
@@ -33,7 +32,7 @@ export default function Header({ onOpenSearch }: HeaderProps) {
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-6 font-mono">
             {/* SHOP DROPDOWN */}
             <div
               className="relative"
@@ -42,7 +41,7 @@ export default function Header({ onOpenSearch }: HeaderProps) {
             >
               <Link
                 href="/#collection"
-                className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-widest text-gray-300 hover:text-white py-2"
+                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-white py-2"
               >
                 Shop <ChevronDown size={14} />
               </Link>
@@ -70,7 +69,7 @@ export default function Header({ onOpenSearch }: HeaderProps) {
             >
               <Link
                 href="/#collection"
-                className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-widest text-gray-300 hover:text-white py-2"
+                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-white py-2"
               >
                 Prodotti <ChevronDown size={14} />
               </Link>
@@ -95,34 +94,27 @@ export default function Header({ onOpenSearch }: HeaderProps) {
 
             <Link
               href="/#collection"
-              className="text-xs font-mono font-bold uppercase tracking-widest text-gray-300 hover:text-white py-2"
+              className="text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-white py-2"
             >
               Archivio 1/1
             </Link>
           </nav>
         </div>
 
-        {/* CENTER: PROMINENT BRAND LOGO WITH HIGH CONTRAST */}
-        <Link href="/" className="flex items-center justify-center group py-1">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full border border-[#333] group-hover:border-white transition-all overflow-hidden flex items-center justify-center p-1 bg-[#0a0a0a] shadow-2xl">
-              <Image
-                src="/logo.png"
-                alt="Novum Store Logo"
-                width={42}
-                height={42}
-                className="object-contain rounded-full brightness-110 contrast-125"
-                priority
-              />
-            </div>
-            <span className="text-base font-extrabold uppercase tracking-widest text-white hidden sm:inline">
-              NOVUM STORE
-            </span>
-          </div>
+        {/* CENTER: STANDALONE PROMINENT BRAND LOGO (NO CIRCLE MASK, NO EXTRA TEXT) */}
+        <Link href="/" className="flex items-center justify-center py-1 transition-transform hover:scale-105">
+          <Image
+            src="/logo.png"
+            alt="Novum Store Logo"
+            width={140}
+            height={48}
+            className="object-contain h-12 w-auto brightness-125 contrast-125"
+            priority
+          />
         </Link>
 
         {/* RIGHT: SEARCH, WISHLIST & CART WITH REALTIME TOTAL */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 font-mono">
           {/* Search Trigger */}
           <button
             onClick={onOpenSearch}
@@ -140,7 +132,7 @@ export default function Header({ onOpenSearch }: HeaderProps) {
           >
             <Heart size={19} />
             {wishlistCount > 0 && (
-              <span className="absolute top-0.5 right-0.5 bg-white text-black text-[9px] font-mono font-bold h-4 w-4 rounded-full flex items-center justify-center shadow">
+              <span className="absolute top-0.5 right-0.5 bg-white text-black text-[9px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow">
                 {wishlistCount}
               </span>
             )}
@@ -149,7 +141,7 @@ export default function Header({ onOpenSearch }: HeaderProps) {
           {/* Realtime Cart Button */}
           <button
             onClick={() => setIsCartOpen(true)}
-            className="flex items-center gap-2 bg-[#121212] hover:bg-white hover:text-black border border-[#2a2a2a] px-3.5 py-2 rounded-xl text-xs font-mono font-bold text-white transition-all shadow-md"
+            className="flex items-center gap-2 bg-[#121212] hover:bg-white hover:text-black border border-[#2a2a2a] px-3.5 py-2 rounded-xl text-xs font-bold text-white transition-all shadow-md"
           >
             <div className="relative">
               <ShoppingCart size={17} />

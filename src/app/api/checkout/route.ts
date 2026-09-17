@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { supabase } from '@/lib/supabase';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2026-08-26.dahlia',
@@ -11,30 +12,57 @@ export async function POST(req: Request) {
 
     if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY === 'sk_test_placeholder') {
       return NextResponse.json(
-        { error: 'Stripe non e ancora configurato con una chiave segreta valida.' },
+        { error: 'Stripe non è ancora configurato con una chiave segreta valida.' },
         { status: 500 }
       );
     }
 
-    const lineItems = items.map((item: any) => ({
-      price_data: {
-        currency: 'eur',
-        product_data: {
-          name: item.name,
-          images: [item.image],
-          metadata: {
-            tagId: item.tagId,
-            id: item.id
-          }
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return NextResponse.json({ error: 'Nessun articolo nel carrello.' }, { status: 400 });
+    }
+
+    // Live Supabase stock verification & quantity capping
+    const validatedLineItems = [];
+
+    for (const item of items) {
+      const { data: product } = await supabase
+        .from('products')
+        .select('stock_quantity, is_visible')
+        .eq('id', item.id)
+        .single();
+
+      const availableStock = product?.stock_quantity ?? 0;
+
+      if (!product || !product.is_visible || availableStock <= 0) {
+        return NextResponse.json(
+          { error: `Il capo "${item.name}" non è più disponibile in magazzino.` },
+          { status: 400 }
+        );
+      }
+
+      // Cap quantity to available stock
+      const cappedQuantity = Math.min(item.quantity, availableStock);
+
+      validatedLineItems.push({
+        price_data: {
+          currency: 'eur',
+          product_data: {
+            name: item.name,
+            images: item.image ? [item.image] : [],
+            metadata: {
+              tagId: item.tagId,
+              id: item.id,
+            },
+          },
+          unit_amount: Math.round(item.price * 100),
         },
-        unit_amount: Math.round(item.price * 100), // Stripe si aspetta centesimi
-      },
-      quantity: item.quantity,
-    }));
+        quantity: cappedQuantity,
+      });
+    }
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: lineItems,
+      line_items: validatedLineItems,
       mode: 'payment',
       success_url: `${req.headers.get('origin')}/?success=true`,
       cancel_url: `${req.headers.get('origin')}/?canceled=true`,
