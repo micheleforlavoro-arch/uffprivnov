@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { CartProvider } from "@/context/CartContext";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import CartDrawer from "@/components/cart/CartDrawer";
+import AppLayout from "@/components/layout/AppLayout";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -17,8 +14,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Novum Store",
-  description: "Pezzi unici e archivi accuratamente selezionati.",
+  title: "Novum Store | Streetwear Archive & Drop 01",
+  description: "E-commerce streetwear d'archivio. Pezzi unici, spedizione rapida e pagamento alla consegna.",
 };
 
 export default function RootLayout({
@@ -28,13 +25,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="antialiased min-h-screen flex flex-col">
-        <CartProvider>
-          <Header />
-          <main className="flex-grow pt-24">{children}</main>
-          <Footer />
-          <CartDrawer />
-        </CartProvider>
+      <body className="antialiased min-h-screen bg-[#050505]">
+        <AppLayout>{children}</AppLayout>
       </body>
     </html>
   );
