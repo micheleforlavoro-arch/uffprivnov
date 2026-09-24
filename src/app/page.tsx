@@ -87,7 +87,7 @@ export default function Home() {
           </div>
 
           {/* AUTHENTIC BRAND VALUES BAR */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl text-left font-mono">
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl text-left font-mono">
             <div className="bg-[#0a0a0a]/90 border border-[#222] p-4 rounded-xl backdrop-blur-md flex items-center gap-3">
               <Layers size={18} className="text-gray-300 flex-shrink-0" />
               <div>
@@ -100,15 +100,7 @@ export default function Home() {
               <PackageCheck size={18} className="text-gray-300 flex-shrink-0" />
               <div>
                 <h5 className="text-xs font-bold text-white uppercase">Spedizione Italia</h5>
-                <p className="text-[10px] text-gray-500">Consegna 24/48h</p>
-              </div>
-            </div>
-
-            <div className="bg-[#0a0a0a]/90 border border-[#222] p-4 rounded-xl backdrop-blur-md flex items-center gap-3">
-              <Repeat size={18} className="text-gray-300 flex-shrink-0" />
-              <div>
-                <h5 className="text-xs font-bold text-white uppercase">Nessun Restock</h5>
-                <p className="text-[10px] text-gray-500">Edizioni limitate</p>
+                <p className="text-[10px] text-gray-500">Consegna 24/48h o a mano</p>
               </div>
             </div>
 

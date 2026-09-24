@@ -64,8 +64,12 @@ export async function POST(req: Request) {
       });
     }
 
+    const isFreeShipping = subtotalCents >= 15000;
+    const finalShippingMethod = isFreeShipping ? 'free' : shippingMethod === 'pickup' ? 'pickup' : 'standard';
+    const finalShippingCost = isFreeShipping ? 0 : shippingMethod === 'pickup' ? 4.00 : 7.00;
+
     // Server-side shipping calculation rules
-    if (subtotalCents < 15000) { // Under 150,00 €
+    if (!isFreeShipping) {
       const isPickup = shippingMethod === 'pickup';
       const shippingCostCents = isPickup ? 400 : 700; // 4.00 € vs 7.00 €
       const shippingLabel = isPickup 
@@ -84,10 +88,23 @@ export async function POST(req: Request) {
       });
     }
 
+    const cartSummary = items.map((i: any) => ({
+      id: i.id,
+      name: i.name,
+      quantity: i.quantity,
+      selectedSize: i.selectedSize || 'Standard',
+      tagId: i.tagId,
+    }));
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: validatedLineItems,
       mode: 'payment',
+      metadata: {
+        items: JSON.stringify(cartSummary),
+        shippingMethod: finalShippingMethod,
+        shippingCost: finalShippingCost.toString(),
+      },
       success_url: `${req.headers.get('origin')}/?success=true`,
       cancel_url: `${req.headers.get('origin')}/?canceled=true`,
     });
