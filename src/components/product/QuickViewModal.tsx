@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { X, ShieldCheck, Truck, MapPin, Check, Info } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import ProductTopMenu from "@/components/product/ProductTopMenu";
 
 interface QuickViewModalProps {
   product: {
@@ -61,8 +62,19 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
                 priority
               />
 
-              {/* Tag Badges */}
-              <div className="absolute top-4 left-4 z-10 flex flex-col gap-2 font-mono">
+              {/* Top Left Menu & Tag Badges */}
+              <div className="absolute top-4 left-4 z-20 flex flex-col gap-2 font-mono items-start">
+                <ProductTopMenu
+                  id={product.id}
+                  name={product.title}
+                  price={product.price}
+                  image={product.image_url}
+                  tagId={product.tag_id}
+                  material={product.material}
+                  fit={product.fit}
+                  stock_quantity={product.stock_quantity}
+                />
+
                 <span className="bg-white text-black text-[11px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">
                   {product.tag_id}
                 </span>
@@ -149,7 +161,7 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
 
                 <div className="flex items-center gap-2.5">
                   <Truck size={15} className="text-gray-400 flex-shrink-0" />
-                  <span>Spedizione: <strong className="text-white">Tracciata Corriere Espresso (24/48h)</strong></span>
+                  <span>Spedizione: <strong className="text-white">Tracciata Espresso (24/48h) o Consegna a mano Cosenza</strong></span>
                 </div>
 
                 <div className="flex items-center gap-2.5">
@@ -159,7 +171,7 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
 
                 <div className="flex items-center gap-2.5">
                   <MapPin size={15} className="text-gray-400 flex-shrink-0" />
-                  <span>Sede / Studio: <strong className="text-white">[Luogo da inserire]</strong></span>
+                  <span>Sede / Studio: <strong className="text-white">Cosenza (CS), Italia</strong></span>
                 </div>
               </div>
             </div>

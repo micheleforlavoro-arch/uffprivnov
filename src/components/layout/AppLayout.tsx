@@ -7,6 +7,7 @@ import CartDrawer from "@/components/cart/CartDrawer";
 import WishlistDrawer from "@/components/wishlist/WishlistDrawer";
 import SearchDrawer from "@/components/search/SearchDrawer";
 import MinimalSupport from "@/components/ui/MinimalSupport";
+import CookieBanner from "@/components/ui/CookieBanner";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { CartProvider } from "@/context/CartContext";
 
@@ -24,8 +25,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <WishlistDrawer />
           <SearchDrawer isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
           <MinimalSupport />
+          <CookieBanner />
         </div>
       </WishlistProvider>
     </CartProvider>
   );
 }
+

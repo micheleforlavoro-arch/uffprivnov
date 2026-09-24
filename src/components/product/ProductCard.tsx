@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Heart, Eye, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import ProductTopMenu from "@/components/product/ProductTopMenu";
 
 interface ProductProps {
   id: string;
@@ -42,10 +43,10 @@ export default function ProductCard({
       {/* IMAGE CONTAINER WITH AUTHENTIC BADGES & HOVER OVERLAY */}
       <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#0c0c0c] p-4">
         {/* Border corner geometric marks */}
-        <div className="absolute top-2 left-2 w-2 h-2 border-t border-l border-gray-700"></div>
-        <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-gray-700"></div>
-        <div className="absolute bottom-2 left-2 w-2 h-2 border-b border-l border-gray-700"></div>
-        <div className="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-gray-700"></div>
+        <div className="absolute top-2 left-2 w-2 h-2 border-t border-l border-gray-700 pointer-events-none"></div>
+        <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-gray-700 pointer-events-none"></div>
+        <div className="absolute bottom-2 left-2 w-2 h-2 border-b border-l border-gray-700 pointer-events-none"></div>
+        <div className="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-gray-700 pointer-events-none"></div>
         
         <Image
           src={image || "/placeholder.png"}
@@ -72,8 +73,20 @@ export default function ProductCard({
           <Heart size={15} fill={favorited ? "currentColor" : "none"} />
         </button>
 
-        {/* AUTHENTIC TAG BADGES (TOP LEFT) */}
+        {/* TOP-LEFT MENU & AUTHENTIC TAG BADGES */}
         <div className="absolute top-3 left-3 z-20 flex flex-col gap-1.5 items-start font-mono">
+          <ProductTopMenu
+            id={id}
+            name={name}
+            price={price}
+            image={image}
+            tagId={tagId}
+            material={material}
+            fit={fit}
+            stock_quantity={stock_quantity}
+            onQuickView={onQuickView}
+          />
+
           {isSoldOut ? (
             <span className="bg-[#181818] text-gray-400 border border-[#333] font-bold uppercase text-[10px] px-2 py-0.5 rounded">
               Sold Out
