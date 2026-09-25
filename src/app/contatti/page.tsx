@@ -60,9 +60,23 @@ export default function ContactPage() {
           </div>
           <div>
             <h3 className="tag-label text-gray-500 mb-1">Social</h3>
-            <div className="flex gap-4 mt-2">
-              <a href="#" className="border tag-border px-4 py-2 text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-colors">Instagram</a>
-              <a href="#" className="border tag-border px-4 py-2 text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-colors">TikTok</a>
+            <div className="flex gap-4 mt-2 font-mono">
+              <a
+                href="https://www.instagram.com/novum_store_"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border tag-border px-4 py-2 text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors rounded-lg"
+              >
+                Instagram
+              </a>
+              <a
+                href="https://www.tiktok.com/@novum_store_"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border tag-border px-4 py-2 text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors rounded-lg"
+              >
+                TikTok
+              </a>
             </div>
           </div>
         </div>

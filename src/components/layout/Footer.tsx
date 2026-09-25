@@ -55,6 +55,16 @@ export default function Footer() {
           </div>
           
           <div className="flex flex-col gap-2">
+            <h3 className="tag-label text-gray-400 mb-4">Social</h3>
+            <a href="https://www.instagram.com/novum_store_" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-400 hover:text-white transition-colors">
+              Instagram (@novum_store_)
+            </a>
+            <a href="https://www.tiktok.com/@novum_store_" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-400 hover:text-white transition-colors">
+              TikTok (@novum_store_)
+            </a>
+          </div>
+
+          <div className="flex flex-col gap-2">
             <h3 className="tag-label text-gray-400 mb-4">Legali</h3>
             <Link href="/termini-condizioni" className="text-sm text-gray-400 hover:text-white transition-colors">Termini e Condizioni</Link>
             <Link href="/privacy" className="text-sm text-gray-400 hover:text-white transition-colors">Privacy Policy</Link>
