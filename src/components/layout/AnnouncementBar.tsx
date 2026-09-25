@@ -6,8 +6,8 @@ export default function AnnouncementBar() {
   const announcements = [
     "SPEDIZIONE TRACCIATA IN TUTTA ITALIA",
     "NOVUM ARCHIVE • DROP 01 LIVE NOW",
-    "PEZZI UNICI 1/1 • NESSUN RESTOCK",
-    "RESI ENTRO 14 GIORNI",
+    "PEZZI UNICI 1/1 • ARCHIVIO STREETWEAR",
+    "SPEDIZIONE GRATUITA DA €150 | CONSEGNA A MANO COSENZA €4",
   ];
 
   return (

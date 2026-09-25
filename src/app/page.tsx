@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/product/ProductCard";
 import QuickViewModal from "@/components/product/QuickViewModal";
+import InstagramFeed from "@/components/social/InstagramFeed";
 import { supabase } from "@/lib/supabase";
 import { ShieldCheck, ArrowRight, Zap, RefreshCw, Layers, PackageCheck, Repeat } from "lucide-react";
 
@@ -208,91 +209,7 @@ export default function Home() {
       </section>
 
       {/* INSTAGRAM & TIKTOK SOCIAL GRID SECTION */}
-      <section className="container mx-auto px-4 pb-24">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b border-[#1c1c1c] pb-4 gap-4">
-          <div>
-            <h2 className="text-2xl font-bold uppercase tracking-tighter text-white font-sans flex items-center gap-2">
-              @novum_store_
-            </h2>
-            <p className="text-xs text-gray-500 font-mono">Community & Visual Archive • Instagram & TikTok</p>
-          </div>
-          <div className="flex items-center gap-2 font-mono">
-            <a
-              href="https://www.instagram.com/novum_store_"
-              target="_blank"
-              rel="noreferrer"
-              className="text-xs font-bold uppercase tracking-widest bg-[#121212] hover:bg-white hover:text-black border border-[#222] text-gray-300 px-4 py-2 rounded-xl transition-all"
-            >
-              Instagram →
-            </a>
-            <a
-              href="https://www.tiktok.com/@novum_store_"
-              target="_blank"
-              rel="noreferrer"
-              className="text-xs font-bold uppercase tracking-widest bg-[#121212] hover:bg-white hover:text-black border border-[#222] text-gray-300 px-4 py-2 rounded-xl transition-all"
-            >
-              TikTok →
-            </a>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 font-mono">
-          {[
-            {
-              id: 1,
-              title: "NOVUM_LOOK_01",
-              tag: "DROP 01 • OVERSIZE FIT",
-              img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop",
-              url: "https://www.instagram.com/novum_store_",
-            },
-            {
-              id: 2,
-              title: "NOVUM_LOOK_02",
-              tag: "ARCHIVE 1/1 • BOXY HOODIE",
-              img: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=800&auto=format&fit=crop",
-              url: "https://www.instagram.com/novum_store_",
-            },
-            {
-              id: 3,
-              title: "NOVUM_LOOK_03",
-              tag: "UTILITARIAN CARGO",
-              img: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=800&auto=format&fit=crop",
-              url: "https://www.instagram.com/novum_store_",
-            },
-            {
-              id: 4,
-              title: "NOVUM_LOOK_04",
-              tag: "DARK LUXURY OUTERWEAR",
-              img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800&auto=format&fit=crop",
-              url: "https://www.instagram.com/novum_store_",
-            },
-          ].map((post) => (
-            <a
-              key={post.id}
-              href={post.url}
-              target="_blank"
-              rel="noreferrer"
-              className="aspect-[3/4] bg-[#080808] border border-[#1c1c1c] hover:border-gray-500 rounded-xl relative overflow-hidden group transition-all duration-300 block"
-            >
-              <img
-                src={post.img}
-                alt={post.title}
-                className="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-              />
-              <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded text-[10px] text-gray-300 border border-[#333]">
-                @novum_store_
-              </div>
-              <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col gap-1.5 font-mono">
-                <span className="text-[10px] text-gray-400 font-bold uppercase">{post.tag}</span>
-                <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center justify-between">
-                  <span>{post.title}</span>
-                  <span className="text-gray-400 group-hover:text-white transition-colors">→</span>
-                </span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
+      <InstagramFeed />
 
       {/* QUICK VIEW MODAL */}
       <QuickViewModal
